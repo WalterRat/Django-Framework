@@ -2,6 +2,9 @@ import os,json
 
 from django.shortcuts import render
 
+
+from products.models import Product, ProductCategory
+
 MODULE_DIR = os.path.dirname(__file__)
 
 # Create your views here.
@@ -14,9 +17,11 @@ def index(request):
     return render(request, 'products/index.html', context)
 
 def products(request):
-    context = {'title': 'GeekShop - Каталог'}
-    file_path = os.path.join(MODULE_DIR, 'fixtures/goods.json')
-    context['products'] = json.load(open(file_path, encoding='utf-8'))
+    context = {
+        'title': 'GeekShop - Каталог',
+        'products': Product.objects.all(),
+        'categories': ProductCategory.objects.all(),
+        }
     return render(request, 'products/products.html', context)
 
 def test_context(request):
